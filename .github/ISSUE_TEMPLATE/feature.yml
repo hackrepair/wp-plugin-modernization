@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose an evidence-led improvement to the local review workflow.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Explain the review decision or workflow that is difficult today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and examples
+      description: Use synthetic examples. Do not include private plugin source or customer data.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe expected output, limits, and false-positive tradeoffs.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Project boundaries
+      options:
+        - label: This proposal can remain local and read-only by default, or clearly explains why the boundary must change.
+          required: true
+        - label: This proposal does not treat a quiet scan as proof that a plugin is secure or compatible.
+          required: true

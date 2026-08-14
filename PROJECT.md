@@ -9,6 +9,7 @@
 | Website | https://hackrepair.com/ |
 | Repository | https://github.com/hackrepair/wp-plugin-modernization |
 | License | GPL-2.0-or-later |
+| Current version | 0.1.0.dev1 |
 | Development status | Early development |
 | Publication status | Public-ready locally; GitHub repository exists but publication is pending. |
 
@@ -64,11 +65,16 @@ The app must never promote a review cue into a confirmed vulnerability without a
 - Read-only folder and ZIP input with SHA-256 input fingerprinting.
 - ZIP path-traversal rejection and mandatory new output directories.
 - First-party PHP inventory with PHP syntax checks when available.
-- JSON schema version 2 plus a human-readable Markdown report.
+- Privacy-safe JSON schema version 3 plus a human-readable Markdown report.
 - Separate actionable review cues and mitigated observations.
 - Context recognition for capability/authorization wrappers, nonces, unslashing, sanitizers, escaping, prepared SQL patterns, constrained deserialization, and documented output exceptions.
 - Exclusions for `.claude`, `.codex`, `.git`, `.hg`, `.svn`, `vendor`, `node_modules`, and bytecode/cache directories.
+- ZIP entry-count, expanded-size, Windows traversal, and symbolic-link protections.
+- Analyzer/PHP provenance in reports without recording absolute source paths.
 - Seven fixture tests covering the source-preservation and classification boundaries above.
+- Installable Python package with `wp-plugin-modernization` and `python -m wp_plugin_modernization` entrypoints; the original source-checkout command remains available.
+- SHA-pinned CI across Python 3.11 through 3.14, PHP-backed lint coverage, CodeQL, and Dependabot maintenance.
+- Issue forms, pull request template, support policy, code of conduct, changelog, citation metadata, and normalized editor/repository settings.
 - Real scan against THRG WP Site Cleaner: 22 first-party PHP files, 18 actionable review cues, and 39 mitigated observations after noise reduction. This is validation of report behavior, not a security verdict on the plugin.
 
 ## Roadmap
@@ -104,9 +110,14 @@ The app must never promote a review cue into a confirmed vulnerability without a
 - [x] Project status and implementation roadmap reconciled with the code.
 - [x] Contribution and private security-reporting guidance.
 - [x] GPL-2.0-or-later license file.
+- [x] Installable package metadata and versioned CLI.
+- [x] SHA-pinned CI, CodeQL, and Dependabot configuration.
+- [x] Issue forms, pull request template, changelog, citation, support, and conduct files.
+- [x] Maintainer governance and succession boundary.
 - [ ] Add repository description, homepage, and topics on GitHub.
 - [ ] Make the GitHub repository public when Jim approves publication.
-- [ ] Create the initial commit and push `main`.
+- [x] Create the initial local commit.
+- [ ] Push `main` to GitHub.
 - [ ] Verify the rendered GitHub README and repository links.
 
 ## Definition of done for a release

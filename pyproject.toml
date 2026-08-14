@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wp-plugin-modernization"
+dynamic = ["version"]
+description = "Local, evidence-led review for WordPress plugin folders and ZIP archives."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Jim Walker, The Hack Repair Guy" },
+]
+maintainers = [
+  { name = "Jim Walker, The Hack Repair Guy" },
+]
+keywords = [
+  "wordpress",
+  "plugin",
+  "static-analysis",
+  "security-review",
+  "php",
+]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.scripts]
+wp-plugin-modernization = "wp_plugin_modernization.cli:main"
+
+[project.urls]
+Homepage = "https://hackrepair.com/"
+Repository = "https://github.com/hackrepair/wp-plugin-modernization"
+Issues = "https://github.com/hackrepair/wp-plugin-modernization/issues"
+Changelog = "https://github.com/hackrepair/wp-plugin-modernization/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["wp_plugin_modernization*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "wp_plugin_modernization.__version__" }
+
+[tool.setuptools.package-data]
+wp_plugin_modernization = ["py.typed"]

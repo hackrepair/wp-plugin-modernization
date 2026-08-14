@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using the metadata in this file.
+title: WP Plugin Modernization
+type: software
+version: 0.1.0.dev1
+license: GPL-2.0-or-later
+authors:
+  - family-names: Walker
+    given-names: Jim
+    affiliation: The Hack Repair Guy
+    website: https://hackrepair.com/
+repository-code: https://github.com/hackrepair/wp-plugin-modernization
+url: https://hackrepair.com/
+keywords:
+  - WordPress
+  - plugin review
+  - static analysis
+  - PHP

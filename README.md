@@ -5,6 +5,8 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/hackrepair/wp-plugin-modernization/actions/workflows/ci.yml"><img alt="CI status" src="https://img.shields.io/github/actions/workflow/status/hackrepair/wp-plugin-modernization/ci.yml?branch=main&label=CI&style=for-the-badge"></a>
+  <a href="https://github.com/hackrepair/wp-plugin-modernization/actions/workflows/codeql.yml"><img alt="CodeQL status" src="https://img.shields.io/github/actions/workflow/status/hackrepair/wp-plugin-modernization/codeql.yml?branch=main&label=CodeQL&style=for-the-badge"></a>
   <a href="https://github.com/hackrepair/wp-plugin-modernization"><img alt="Development status" src="https://img.shields.io/badge/status-early%20development-f4931e?style=for-the-badge"></a>
   <img alt="Python 3.11 or newer" src="https://img.shields.io/badge/python-3.11%2B-3776ab?style=for-the-badge">
   <a href="LICENSE"><img alt="GPL-2.0-or-later license" src="https://img.shields.io/badge/license-GPL--2.0--or--later-222222?style=for-the-badge"></a>
@@ -46,6 +48,17 @@ The foundation analyzer has no third-party Python dependencies.
 git clone https://github.com/hackrepair/wp-plugin-modernization.git
 cd wp-plugin-modernization
 
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install .
+
+wp-plugin-modernization /path/to/plugin-or-plugin.zip \
+  --output /path/to/new-report-directory
+```
+
+You can also run the compatibility entrypoint directly from a checkout:
+
+```sh
 python3 app/analyze_plugin.py /path/to/plugin-or-plugin.zip \
   --output /path/to/new-report-directory
 ```
@@ -82,6 +95,14 @@ Future network-backed adapters must remain opt-in and disclose exactly what data
 
 ## Development
 
+Create an editable development environment:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --editable .
+```
+
 Run the test suite:
 
 ```sh
@@ -90,7 +111,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 
 Current coverage includes source preservation, folder and ZIP intake, unsafe ZIP rejection, non-overwriting reports, embedded-worktree exclusion, guarded-input recognition, constrained deserialization, structured WordPress database calls, and documented stream output.
 
+Pull requests run the test suite on Python 3.11 through 3.14 with PHP 8.3 available for lint coverage. GitHub Actions are pinned to immutable commit SHAs and maintained through Dependabot.
+
 See [PROJECT.md](PROJECT.md) for the evidence model, architecture, implementation status, roadmap, and release requirements.
+
+Project decision-making and maintenance responsibilities are documented in [GOVERNANCE.md](GOVERNANCE.md).
 
 ## Contributing and Security Reports
 
@@ -105,5 +130,7 @@ GPL-2.0-or-later. See [LICENSE](LICENSE).
 ## Credits
 
 Developed by [Jim Walker, The Hack Repair Guy](https://hackrepair.com/).
+
+The copy-on-write and evidence-gating direction was informed by [adeel-raza/wp-best-practice-converter](https://github.com/adeel-raza/wp-best-practice-converter). WP Plugin Modernization uses its own read-only analyzer and does not automatically rewrite selected plugin source.
 
 Repository: [hackrepair/wp-plugin-modernization](https://github.com/hackrepair/wp-plugin-modernization)

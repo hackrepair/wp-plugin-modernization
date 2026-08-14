@@ -1,4 +1,6 @@
 import json
+import shutil
+import stat
 import subprocess
 import tempfile
 import unittest
@@ -43,6 +45,10 @@ class AnalyzePluginTests(unittest.TestCase):
             self.assertEqual(before, source.read_bytes())
             report = json.loads((output / "report.json").read_text())
             self.assertEqual(64, len(report["input"]["sha256"]))
+            self.assertEqual(plugin.name, report["input"]["name"])
+            self.assertNotIn(str(root), json.dumps(report))
+            self.assertEqual("0.1.0.dev1", report["tool"]["version"])
+            self.assertEqual(3, report["schema_version"])
             self.assertEqual(1, report["inventory"]["php_files"])
             self.assertEqual("Fixture Plugin", report["plugin_headers"][0]["headers"]["Plugin Name"])
             self.assertEqual({"input", "output"}, {item["category"] for item in report["findings"] if item["category"] != "syntax"})
@@ -131,6 +137,53 @@ function remove_row( $id ) {
             result = self.run_app(archive, root / "report")
             self.assertEqual(2, result.returncode)
             self.assertIn("unsafe path", result.stderr)
+
+    def test_rejects_windows_style_zip_traversal(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            archive = root / "unsafe-windows.zip"
+            with zipfile.ZipFile(archive, "w") as bundle:
+                bundle.writestr("..\\escape.php", "<?php")
+            result = self.run_app(archive, root / "report")
+            self.assertEqual(2, result.returncode)
+            self.assertIn("unsafe path", result.stderr)
+
+    def test_rejects_zip_symbolic_link(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            archive = root / "unsafe-link.zip"
+            link = zipfile.ZipInfo("fixture/link.php")
+            link.create_system = 3
+            link.external_attr = (stat.S_IFLNK | 0o777) << 16
+            with zipfile.ZipFile(archive, "w") as bundle:
+                bundle.writestr(link, "../../outside.php")
+            result = self.run_app(archive, root / "report")
+            self.assertEqual(2, result.returncode)
+            self.assertIn("unsafe path", result.stderr)
+
+    @unittest.skipUnless(shutil.which("php"), "PHP is required for lint-detail redaction")
+    def test_php_lint_failure_does_not_expose_absolute_source_path(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            plugin = root / "fixture-plugin"
+            plugin.mkdir()
+            (plugin / "broken.php").write_text("<?php function broken( {")
+            result = self.run_app(plugin, root / "report")
+            self.assertEqual(0, result.returncode, result.stderr)
+            report = json.loads((root / "report" / "report.json").read_text())
+            self.assertEqual(1, len(report["inventory"]["lint_failures"]))
+            self.assertNotIn(str(root), json.dumps(report))
+
+    def test_module_entrypoint_reports_version(self):
+        result = subprocess.run(
+            ["python3", "-m", "wp_plugin_modernization", "--version"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("0.1.0.dev1", result.stdout)
 
     def test_refuses_to_overwrite_existing_report(self):
         with tempfile.TemporaryDirectory() as temporary:
