@@ -114,7 +114,7 @@ The app must never promote a review cue into a confirmed vulnerability without a
 - [x] SHA-pinned CI, CodeQL, and Dependabot configuration.
 - [x] Issue forms, pull request template, changelog, citation, support, and conduct files.
 - [x] Maintainer governance and succession boundary.
-- [ ] Add repository description, homepage, and topics on GitHub.
+- [x] Add repository description, homepage, and topics on GitHub.
 - [ ] Make the GitHub repository public when Jim approves publication.
 - [x] Create the initial local commit.
 - [ ] Push `main` to GitHub.
