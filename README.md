@@ -131,6 +131,4 @@ GPL-2.0-or-later. See [LICENSE](LICENSE).
 
 Developed by [Jim Walker, The Hack Repair Guy](https://hackrepair.com/).
 
-The copy-on-write and evidence-gating direction was informed by [adeel-raza/wp-best-practice-converter](https://github.com/adeel-raza/wp-best-practice-converter). WP Plugin Modernization uses its own read-only analyzer and does not automatically rewrite selected plugin source.
-
 Repository: [hackrepair/wp-plugin-modernization](https://github.com/hackrepair/wp-plugin-modernization)
